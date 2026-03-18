@@ -10,7 +10,8 @@ pub fn printInitScript(writer: anytype) !void {
         \\    local last_cmd
         \\    last_cmd=$(history 1 | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//')
         \\    [[ ${#last_cmd} -lt 2 ]] && return
-        \\    zeno_shell record "$last_cmd" "$PWD" "$_ZENO_LAST_EXIT" &
+        \\    zeno_shell record "$last_cmd" "$PWD" "$_ZENO_LAST_EXIT" >/dev/null 2>&1 &
+        \\    disown
         \\}
         \\
         \\_zeno_save_exit() { _ZENO_LAST_EXIT=$?; }
