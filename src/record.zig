@@ -79,6 +79,10 @@ fn upsertEntry(
     const encoded = schema.encodeEntry(&valBuf, entry);
     const value = types.Value{ .string = encoded };
     try db.put(key, &value);
+
+    const TTL_SECONDS: i64 = 90 * 24 * 60 * 60;
+    const expireAt = std.time.timestamp() + TTL_SECONDS;
+    _ = db.expire_at(key, expireAt) catch {};
 }
 
 test "recordCommand creates and increments entries" {
